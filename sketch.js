@@ -1,5 +1,5 @@
 const bgSketch = {
-  $footer: document.getElementById('main_footer'),
+  $footer: document.getElementById('footer_bg'),
   config: {
     hash: 'oo6sSpnzSDBVCD5pw4JK9nvTCZduncGhr3wLtfmuY1hx1UUWFxk',
     enableFPS: true,
@@ -9,13 +9,15 @@ const bgSketch = {
     stripeZoom: Math.max(window.innerWidth, window.innerHeight) / 800,
     stripeCount: 250
   },
-  init() {
+  init(winWidth, winHeight) {
     this.sketch = new p5(
       this.setUpP5.bind(this),
       document.getElementById('footer_bg')
     );
     this.p5 = undefined;
     this.animating = true;
+    this.winWidth = winWidth;
+    this.winHeight = winHeight
   },
 
   setUpP5(p5Fn) {
@@ -280,9 +282,8 @@ const bgSketch = {
         drawing = !0;
 
       //SETUP FN
-      // const {width, height} = that.$footer.getBoundingClientRect();
-      const width = 1000;  // Static width
-      const height = 800;  // Static height
+      const width = this.winWidth;
+      const height = this.winHeight;
 
       p5Fn.createCanvas(width, height);
       p5Fn.rectMode(p5Fn.CENTER);
@@ -468,7 +469,8 @@ const bgSketch = {
     };
 
     this.p5.windowResized = () => {
-      const {width, height} = this.$footer.getBoundingClientRect();
+      const width = this.winWidth
+      const height = this.winHeight
 
       p5Fn.resizeCanvas(width, height);
     };
